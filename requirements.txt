@@ -1,0 +1,5 @@
+fastapi>=0.110
+uvicorn>=0.29
+gemini-webapi>=2.1
+curl-cffi~=0.16.2
+python-dotenv>=1.0
