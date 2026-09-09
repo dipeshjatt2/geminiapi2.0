@@ -96,16 +96,22 @@ async def ensure_client():
 
 async def generate_text(prompt: str, files=None, model: str = None) -> str:
     """Run one prompt through the cookie Gemini web API and return its text."""
-    async with _lock:
-        client = await ensure_client()
-        output = await client.generate_content(
-            prompt, files=files or None, model=model or None, temporary=True
-        )
+    client = await ensure_client()
+
+    output = await client.generate_content(
+        prompt,
+        files=files or None,
+        model=model or None,
+        temporary=True,
+    )
+
     text = (output.text or "").strip() if output is not None else ""
     if not text:
-        raise RuntimeError("Gemini returned an empty response (cookies may be expired)")
-    return text
+        raise RuntimeError(
+            "Gemini returned an empty response (cookies may be expired)"
+        )
 
+    return text
 
 # --------------------------------------------------------------------------- #
 # Message / tool-call conversion
